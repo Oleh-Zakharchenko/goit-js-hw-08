@@ -66,8 +66,6 @@ const images = [
   },
 ];
 
-
-
 let activeLightbox = null;
 
 function openModal(imageSrc) {
@@ -94,24 +92,15 @@ function handleKeyDown(event) {
 
 const galleryContainer = document.querySelector(".gallery");
 
-images.forEach((image) => {
-  const galleryItem = document.createElement("li");
-  galleryItem.classList.add("gallery-item");
+const galleryItemsMarkup = images.map((image) => `
+  <li class="gallery-item">
+    <a class="gallery-link" href="${image.original}">
+      <img class="gallery-image" src="${image.preview}" data-source="${image.original}" alt="${image.description}" />
+    </a>
+  </li>
+`).join('');
 
-  const galleryLink = document.createElement("a");
-  galleryLink.classList.add("gallery-link");
-  galleryLink.href = image.original;
-
-  const galleryImage = document.createElement("img");
-  galleryImage.classList.add("gallery-image");
-  galleryImage.src = image.preview;
-  galleryImage.setAttribute("data-source", image.original);
-  galleryImage.alt = image.description;
-
-  galleryLink.appendChild(galleryImage);
-  galleryItem.appendChild(galleryLink);
-  galleryContainer.appendChild(galleryItem);
-});
+galleryContainer.innerHTML = galleryItemsMarkup;
 
 galleryContainer.addEventListener("click", handleGalleryClick);
 
@@ -124,3 +113,4 @@ function handleGalleryClick(event) {
     openModal(largeImageSrc);
   }
 }
+
